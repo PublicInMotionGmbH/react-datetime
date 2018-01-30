@@ -151,14 +151,10 @@ var Datetime = createClass({
 			updatedState = this.getStateFromProps( nextProps );
 		}
 
-		if ( updatedState.open === undefined ) {
-			if ( typeof nextProps.open !== 'undefined' ) {
-				updatedState.open = nextProps.open;
-			} else if ( this.props.closeOnSelect && this.state.currentView !== 'time' ) {
-				updatedState.open = false;
-			} else {
-				updatedState.open = this.state.open;
-			}
+		if ( typeof nextProps.open !== 'undefined' && nextProps.open !== this.props.open ) {
+			updatedState.open = nextProps.open;
+		} else if( this.state.currentView === 'time' ) {
+			updatedState.open = this.state.open;
 		}
 
 		if ( nextProps.viewMode !== this.props.viewMode ) {

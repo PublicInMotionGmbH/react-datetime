@@ -109,6 +109,19 @@ describe('Datetime', () => {
 		// expect(component.find('.rdtOpen').length).toEqual(0);
 	});
 
+	it('stays open when callbacks update props', () => {
+		const component = utils.createDatetime({open: false});
+		expect(utils.isOpen(component)).toBeFalsy();
+		const changePropsFn = () => {
+			component.setProps({className: 'proptest'});
+		};
+		component.setProps({onFocus: changePropsFn});
+		utils.openDatepicker(component); // will call onFocus
+		component.update();
+		expect(component.hasClass('proptest')).toBeTruthy();
+		expect(utils.isOpen(component)).toBeTruthy();
+	});
+
 	it('selectYear', () => {
 		const date = new Date(2000, 0, 15, 2, 2, 2, 2),
 			component = utils.createDatetime({ viewMode: 'years', defaultValue: date });
